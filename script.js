@@ -83,4 +83,13 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
     };
 
     const stabilityLayout = {
-      title: `${country} - Political Stability Over
+      title: `${country} - Political Stability Over Time`,
+      xaxis: { title: 'Year' },
+      yaxis: { title: 'Stability Level' }
+    };
+
+    // Render arms graph above stability graph
+    Plotly.newPlot("arms-chart", [armsTrace], armsLayout);
+    Plotly.newPlot("stability-chart", [stabilityTrace], stabilityLayout);
+  }
+});
