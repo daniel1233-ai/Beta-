@@ -3,36 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>World Map and Data Visualization</title>
+  <title>USA Arms Export and Political Stability Visualization</title>
   <script src="https://d3js.org/d3.v6.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>World Arms Export and Political Stability Visualization</h1>
-  <div id="map"></div>
-  <div id="chart"></div>
-
-  <!-- Color Legend for Stability Levels -->
-  <div id="legend" style="margin-top: 20px;">
-    <h3>Political Stability Levels</h3>
-    <div>
-        <div style="display: inline-block; width: 20px; height: 20px; background-color: #B0D0E0;"></div> Low Stability
-    </div>
-    <div>
-        <div style="display: inline-block; width: 20px; height: 20px; background-color: #7FB3D5;"></div> Moderate Stability
-    </div>
-    <div>
-        <div style="display: inline-block; width: 20px; height: 20px; background-color: #4A90E2;"></div> High Stability
-    </div>
-    <div>
-        <div style="display: inline-block; width: 20px; height: 20px; background-color: #0056A1;"></div> Very High Stability
-    </div>
-    <div>
-        <div style="display: inline-block; width: 20px; height: 20px; background-color: #D3D3D3;"></div> No Data Available
+  <h1>USA Arms Export and Political Stability Visualization</h1>
+  <div id="map-container">
+    <div id="map"></div>
+    <div id="color-legend">
+      <p>Political Stability Levels</p>
+      <div class="legend-color" style="background-color: #f0f9e8;">High</div>
+      <div class="legend-color" style="background-color: #08589e;">Low</div>
     </div>
   </div>
-
+  <div id="stability-chart"></div>
+  <div id="arms-chart"></div>
   <script src="script.js"></script>
 </body>
 </html>
