@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Define the color scale for political stability
   const colorScale = d3.scaleThreshold()
     .domain([1, 2, 3, 4, 5])
-    .range(["#d73027", "#fc8d59", "#fee08b", "#d9ef8b", "#1a9850", "#cccccc"]);  // Shades from red to green, gray for no data
+    .range(["#d73027", "#fc8d59", "#fee08b", "#d9ef8b", "#1a9850", "#cccccc"]);  // Red to green, gray for no data
 
   const svg = d3.select("#map")
                 .append("svg")
@@ -74,6 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function showCountryData(country) {
-    // Data extraction logic remains the same
+    // Placeholder function for clicking on a country; update as needed
   }
 });
