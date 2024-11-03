@@ -1,78 +1,97 @@
-document.addEventListener("DOMContentLoaded", function () {
+// Load the updated data file
+d3.csv("updated_combined_data_with_russia.csv").then(data => {
+
   const width = 960;
   const height = 600;
-
-  const colorScale = d3.scaleThreshold()
-    .domain([1, 2, 3, 4, 5])
-    .range(["#d73027", "#fc8d59", "#fee08b", "#d9ef8b", "#1a9850", "#cccccc"]);  // Red to green, gray for no data
+  const colorScale = d3.scaleLinear()
+                        .domain([1, 5]) // assuming 1 = unstable, 5 = very stable
+                        .range(["#d73027", "#1a9850"]); // red to green
 
   const svg = d3.select("#map")
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height);
 
-  d3.csv("updated_combined_data_with_russia.csv").then(data => {
-    const stabilityData = new Map(data.map(d => [d.Country, +d.StabilityEstimate]));
+  // Tooltip for displaying country name on hover
+  const tooltip = d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("position", "absolute")
+                    .style("background-color", "white")
+                    .style("border", "1px solid black")
+                    .style("padding", "5px")
+                    .style("display", "none");
 
-    d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(geoData => {
-      svg.selectAll("path")
-         .data(geoData.features)
-         .enter()
-         .append("path")
-         .attr("d", d3.geoPath().projection(d3.geoMercator().scale(130).translate([width / 2, height / 1.5])))
-         .attr("fill", d => {
-           const stability = stabilityData.get(d.properties.name);
-           return stability !== undefined ? colorScale(stability) : "#cccccc";
-         })
-         .attr("stroke", "#333")
-         .on("mouseover", (event, d) => {
-           d3.select(event.target).attr("stroke", "#000").attr("stroke-width", 2);
-           d3.select("#country-info h2").text(d.properties.name);
-         })
-         .on("mouseout", event => {
-           d3.select(event.target).attr("stroke", "#333").attr("stroke-width", 1);
-         })
-         .on("click", (event, d) => showCountryData(d.properties.name));
+  // Load a more detailed world GeoJSON data
+  d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(geoData => {
+    // Draw the map
+    svg.selectAll("path")
+       .data(geoData.features)
+       .enter()
+       .append("path")
+       .attr("d", d3.geoPath().projection(d3.geoMercator().scale(130).translate([width / 2, height / 1.5])))
+       .attr("fill", d => {
+         const countryData = data.find(row => row.Country === d.properties.name);
+         return countryData && countryData.StabilityEstimate ? colorScale(countryData.StabilityEstimate) : "#f0f0f0"; // gray for missing data
+       })
+       .attr("stroke", "#d3d3d3")
+       .on("mouseover", (event, d) => {
+          const countryName = d.properties.name;
+          tooltip.style("display", "block").text(countryName);
+       })
+       .on("mousemove", event => {
+          tooltip.style("left", (event.pageX + 10) + "px")
+                 .style("top", (event.pageY - 20) + "px");
+       })
+       .on("mouseout", () => tooltip.style("display", "none"))
+       .on("click", (event, d) => showCountryData(d.properties.name));
+  }).catch(error => console.error("Error loading GeoJSON:", error));
 
-      createColorLegend();
-    }).catch(error => console.error("Error loading GeoJSON:", error));
-  }).catch(error => console.error("Error loading CSV:", error));
-
-  function createColorLegend() {
-    const legendData = [
-      { color: "#d73027", text: "Very Unstable" },
-      { color: "#fc8d59", text: "Unstable" },
-      { color: "#fee08b", text: "Moderate" },
-      { color: "#d9ef8b", text: "Stable" },
-      { color: "#1a9850", text: "Very Stable" },
-      { color: "#cccccc", text: "No Data" }
-    ];
-
-    const legend = d3.select("#color-legend")
-                     .append("svg")
-                     .attr("width", 400)
-                     .attr("height", 50);
-
-    legendData.forEach((item, index) => {
-      const group = legend.append("g")
-                          .attr("transform", `translate(${index * 65}, 0)`);
-
-      group.append("rect")
-           .attr("width", 20)
-           .attr("height", 20)
-           .attr("fill", item.color);
-
-      group.append("text")
-           .attr("x", 25)
-           .attr("y", 15)
-           .text(item.text)
-           .style("font-size", "12px")
-           .style("fill", "#333");
-    });
-  }
-
+  // Function to show data when a country is clicked
   function showCountryData(country) {
-    // Logic for displaying data for the selected country (update or display graphs here)
-    // Placeholder for showing data in #arms-graph and #stability-graph
+    const countryData = data.filter(row => row.Country === country);
+
+    if (countryData.length === 0) {
+      alert("Data not available for " + country);
+      return;
+    }
+
+    // Extract time series data for plotting
+    const years = countryData.map(row => +row.Year);
+    const stability = countryData.map(row => +row.StabilityEstimate);
+    const armsDeliveries = countryData.map(row => +row.ArmsDeliveries);
+
+    // Arms Export Graph
+    const armsTrace = {
+      x: years,
+      y: armsDeliveries,
+      mode: 'lines+markers',
+      name: 'Arms Export',
+      line: { color: '#ff7f0e' }
+    };
+
+    const armsLayout = {
+      title: `${country} - Arms Export Over Time`,
+      xaxis: { title: 'Year' },
+      yaxis: { title: 'Arms Export Value' }
+    };
+
+    // Stability Graph
+    const stabilityTrace = {
+      x: years,
+      y: stability,
+      mode: 'lines+markers',
+      name: 'Political Stability',
+      line: { color: '#1f77b4' }
+    };
+
+    const stabilityLayout = {
+      title: `${country} - Political Stability Over Time`,
+      xaxis: { title: 'Year' },
+      yaxis: { title: 'Stability Level' }
+    };
+
+    // Render arms graph above stability graph
+    Plotly.newPlot("arms-chart", [armsTrace], armsLayout);
+    Plotly.newPlot("stability-chart", [stabilityTrace], stabilityLayout);
   }
 });
