@@ -1,34 +1,36 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
+#map-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 #map {
-  width: 80%;
-  height: 500px;
-  margin: 20px auto;
-}
-
-#chart {
-  width: 80%;
-  height: 400px;
-  margin: 20px auto;
+  width: 960px;
+  height: 600px;
 }
 
 #color-legend {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 0.9em;
   margin-top: 20px;
 }
 
-#color-legend p {
-  margin: 0 10px;
+.legend-color {
+  width: 100px;
+  height: 20px;
+  margin: 5px 0;
 }
 
-.color-box {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  margin-right: 5px;
-  border: 1px solid #000;
+.tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  pointer-events: none;
+}
+
+#stability-chart, #arms-chart {
+  margin-top: 20px;
 }
