@@ -1,6 +1,10 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title-container {
@@ -11,9 +15,8 @@ body {
 
 #map-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
 }
 
 #map {
@@ -23,22 +26,25 @@ body {
 }
 
 #color-legend {
-  font-size: 0.9em;
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  gap: 15px;
 }
 
-.color-item {
+#color-legend svg {
   display: flex;
   align-items: center;
-  gap: 5px;
+}
+
+#color-legend text {
+  font-size: 12px;
 }
 
 #country-info {
-  display: flex;
-  justify-content: center;
+  width: 800px;
   margin-top: 20px;
+}
+
+h2 {
   text-align: center;
 }
