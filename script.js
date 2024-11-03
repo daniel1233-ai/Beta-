@@ -3,24 +3,23 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
 
   const width = 960;
   const height = 600;
-  const colorScale = d3.scaleLinear().domain([1, 5]).range(["#f0f9e8", "#08589e"]); // Ensure color matches legend
+
+  // Define a color scale for political stability, ensuring a clear gradient
+  const colorScale = d3.scaleSequential(d3.interpolateYlGnBu).domain([1, 5]);
 
   const svg = d3.select("#map")
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height);
 
-  // Tooltip for displaying country name on hover
+  // Tooltip for country hover info
   const tooltip = d3.select("body").append("div")
                     .attr("class", "tooltip")
-                    .style("position", "absolute")
-                    .style("background-color", "white")
-                    .style("border", "1px solid black")
-                    .style("padding", "5px")
                     .style("display", "none");
 
-  // Load a detailed world GeoJSON data
+  // Load world map GeoJSON data
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(geoData => {
+
     // Draw the map
     svg.selectAll("path")
        .data(geoData.features)
@@ -29,12 +28,11 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
        .attr("d", d3.geoPath().projection(d3.geoMercator().scale(130).translate([width / 2, height / 1.5])))
        .attr("fill", d => {
          const countryData = data.find(row => row.Country === d.properties.name);
-         return countryData && countryData.StabilityEstimate ? colorScale(+countryData.StabilityEstimate) : "#f0f0f0"; // Color by stability or set as light gray
+         return countryData && countryData.StabilityEstimate ? colorScale(+countryData.StabilityEstimate) : "#f0f0f0";
        })
        .attr("stroke", "#d3d3d3")
        .on("mouseover", (event, d) => {
-          const countryName = d.properties.name;
-          tooltip.style("display", "block").text(countryName);
+          tooltip.style("display", "block").text(d.properties.name);
        })
        .on("mousemove", event => {
           tooltip.style("left", (event.pageX + 10) + "px")
@@ -42,9 +40,9 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
        })
        .on("mouseout", () => tooltip.style("display", "none"))
        .on("click", (event, d) => showCountryData(d.properties.name));
-  }).catch(error => console.error("Error loading GeoJSON:", error));
+  });
 
-  // Function to show data when a country is clicked
+  // Function to display graphs when a country is clicked
   function showCountryData(country) {
     const countryData = data.filter(row => row.Country === country);
 
@@ -53,7 +51,7 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
       return;
     }
 
-    // Extract time series data for plotting
+    // Extract data for plots
     const years = countryData.map(row => +row.Year);
     const stability = countryData.map(row => +row.StabilityEstimate);
     const armsDeliveries = countryData.map(row => +row.ArmsDeliveries);
