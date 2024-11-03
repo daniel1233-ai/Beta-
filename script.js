@@ -42,7 +42,7 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
        })
        .on("mouseout", () => tooltip.style("display", "none"))
        .on("click", (event, d) => showCountryData(d.properties.name));
-  }).catch(error => console.error("Error loading GeoJSON:", error));
+  });
 
   // Function to show data when a country is clicked
   function showCountryData(country) {
