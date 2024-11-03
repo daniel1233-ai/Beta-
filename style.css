@@ -1,5 +1,6 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
 }
 
 .title-container {
@@ -26,4 +27,18 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  gap: 15px;
+}
+
+.color-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#country-info {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
 }
