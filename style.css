@@ -1,50 +1,47 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .title-container {
   text-align: center;
-  font-size: 1.5em;
   margin-bottom: 20px;
 }
 
 #map-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
 }
 
 #map {
   width: 960px;
   height: 600px;
-  border: 1px solid #ccc;
 }
 
 #color-legend {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-#color-legend svg {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-}
-
-#color-legend text {
-  font-size: 12px;
-}
-
-#country-info {
-  width: 800px;
+  font-size: 0.9em;
   margin-top: 20px;
 }
 
-h2 {
+.legend-color {
+  width: 100px;
+  height: 20px;
+  margin: 5px 0;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  padding: 5px;
+  pointer-events: none;
+}
+
+#arms-chart, #stability-chart {
+  margin-top: 20px;
   text-align: center;
 }
