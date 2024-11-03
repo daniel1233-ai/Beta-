@@ -1,0 +1,34 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+#map {
+  width: 80%;
+  height: 500px;
+  margin: 20px auto;
+}
+
+#chart {
+  width: 80%;
+  height: 400px;
+  margin: 20px auto;
+}
+
+#color-legend {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#color-legend p {
+  margin: 0 10px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px solid #000;
+}
