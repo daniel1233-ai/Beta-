@@ -3,7 +3,7 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
 
   const width = 960;
   const height = 600;
-  const colorScale = d3.scaleLinear().domain([1, 5]).range(["#f0f9e8", "#08589e"]); // Color range for "Political Stability Estimate"
+  const colorScale = d3.scaleLinear().domain([1, 5]).range(["#f0f9e8", "#08589e"]); // Ensure color matches legend
 
   const svg = d3.select("#map")
                 .append("svg")
@@ -19,7 +19,7 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
                     .style("padding", "5px")
                     .style("display", "none");
 
-  // Load a more detailed world GeoJSON data
+  // Load a detailed world GeoJSON data
   d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(geoData => {
     // Draw the map
     svg.selectAll("path")
@@ -29,7 +29,7 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
        .attr("d", d3.geoPath().projection(d3.geoMercator().scale(130).translate([width / 2, height / 1.5])))
        .attr("fill", d => {
          const countryData = data.find(row => row.Country === d.properties.name);
-         return countryData && countryData.StabilityEstimate ? colorScale(countryData.StabilityEstimate) : "#f0f0f0"; // Use a light gray for missing data
+         return countryData && countryData.StabilityEstimate ? colorScale(+countryData.StabilityEstimate) : "#f0f0f0"; // Color by stability or set as light gray
        })
        .attr("stroke", "#d3d3d3")
        .on("mouseover", (event, d) => {
@@ -83,13 +83,4 @@ d3.csv("updated_combined_data_with_russia.csv").then(data => {
     };
 
     const stabilityLayout = {
-      title: `${country} - Political Stability Over Time`,
-      xaxis: { title: 'Year' },
-      yaxis: { title: 'Stability Level' }
-    };
-
-    // Render arms graph above stability graph
-    Plotly.newPlot("arms-chart", [armsTrace], armsLayout);
-    Plotly.newPlot("stability-chart", [stabilityTrace], stabilityLayout);
-  }
-});
+      title: `${country} - Political Stability Over
