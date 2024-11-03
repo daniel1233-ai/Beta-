@@ -3,29 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>USA Arms Export</title>
-  <script src="https://d3js.org/d3.v6.min.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <title>USA Arms Export and Political Stability Visualization</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="title-container">
-    <h1>USA Arms Export</h1>
+    <h1>USA Arms Export and Political Stability Visualization</h1>
   </div>
   <div id="map-container">
     <div id="map"></div>
-    <div id="color-legend">
-      <p>Political Stability Estimate</p>
-      <div class="legend-color" style="background-color: #f0f9e8;">Very Stable</div>
-      <div class="legend-color" style="background-color: #ccebc5;">Stable</div>
-      <div class="legend-color" style="background-color: #a8ddb5;">Moderate</div>
-      <div class="legend-color" style="background-color: #7bccc4;">Low Stability</div>
-      <div class="legend-color" style="background-color: #43a2ca;">Very Low</div>
-      <div class="legend-color" style="background-color: #08589e;">Unstable</div>
-    </div>
+    <div id="color-legend">Political Stability Estimate</div>
   </div>
   <div id="arms-chart"></div>
   <div id="stability-chart"></div>
+
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
