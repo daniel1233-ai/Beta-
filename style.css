@@ -12,7 +12,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  flex-direction: column;
 }
 
 #map {
@@ -26,12 +26,4 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 20px;
-}
-
-.legend-item {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-  border-radius: 4px;
 }
